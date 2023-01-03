@@ -114,6 +114,11 @@ public class Terms extends BaseTime {
             this.contents = contents;
             this.version = version;
         }
+
+        public ContentsDTO(String title, String version) {
+            this.title = title;
+            this.version = version;
+        }
     }
 
 }

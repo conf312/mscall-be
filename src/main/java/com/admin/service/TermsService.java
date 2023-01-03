@@ -44,17 +44,6 @@ public class TermsService {
         return terms.useYn.eq(useYn);
     }
 
-    public List<Terms.ContentsDTO> findAll() {
-        return jpaQueryFactory.select(Projections.constructor(Terms.ContentsDTO.class,
-            terms.title,
-            terms.contents,
-            terms.version))
-            .from(terms)
-            .where(terms.useYn.eq("Y"))
-            .orderBy(terms.version.desc())
-            .fetch();
-    }
-
     public HashMap<String, Object> findAll(Terms.Request request, Integer page, Integer pageSize) {
         HashMap<String, Object> resultMap = new HashMap<>();
         List<Terms.Response> list = jpaQueryFactory
@@ -143,4 +132,34 @@ public class TermsService {
     public void deleteById(Terms.Request request) {
         termsRepository.deleteById(request.getId());
     }
+
+    public List<Terms.ContentsDTO> findTop1() {
+        return jpaQueryFactory.select(Projections.constructor(Terms.ContentsDTO.class,
+                        terms.title,
+                        terms.contents,
+                        terms.version))
+                .from(terms)
+                .where(terms.useYn.eq("Y"))
+                .orderBy(terms.version.desc())
+                .limit(1)
+                .fetch();
+    }
+
+    public String findByVersion(Terms.Request request) {
+        return jpaQueryFactory.select(Projections.constructor(String.class,
+            terms.contents))
+            .from(terms)
+            .where(terms.version.eq(request.getVersion()))
+            .fetchOne();
+    }
+
+    public List<String> findVersionList() {
+        return jpaQueryFactory.select(Projections.constructor(String.class,
+            terms.version))
+            .from(terms)
+            .orderBy(terms.version.desc())
+            .fetch();
+    }
+
+
 }
