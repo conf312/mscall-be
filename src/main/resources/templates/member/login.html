@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>로그인 | Admin </title>
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/message.js"></script>
+</head>
+<body>
+<main class="container-fluid">
+  <section class="signin-section">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30"></div>
+      <div class="row g-0 auth-row">
+        <div class="col-lg-6">
+          <div class="auth-cover-wrapper bg-primary-100">
+            <div class="auth-cover">
+              <div class="title text-center">
+                <h1 class="text-primary mb-10">환영합니다.</h1>
+                <p class="text-medium">계속하려면 기존 계정에 로그인하십시오.</p>
+              </div>
+              <div class="cover-image">
+                <img src="/images/auth/signin-image.svg" alt="" />
+              </div>
+              <div class="shape-image">
+                <img src="/images/auth/shape.svg" alt="" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="signin-wrapper">
+            <div class="form-wrapper">
+              <h4 class="mb-15 ft-gm">로그인</h4>
+              <p class="text-sm mb-25">관리자로 승인 받은 계정으로 로그인 하십시오.</p>
+              <form action="/member/public/login/action" method="post">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">이메일</label>
+                      <input type="email" placeholder="이메일을 입력해 주세요." id="email" name="email" th:value="${param.email}" required/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">비밀번호</label>
+                      <input type="password" placeholder="비밀번호를 입력해 주세요." id="password" name="password" required/>
+                    </div>
+                  </div>
+                  <div class="col-xxl-6 col-lg-12 col-md-6">
+                    <div class="form-check checkbox-style mb-30">
+                      <input class="form-check-input" type="checkbox" id="remember-me" name="remember-me"/>
+                      <label class="form-check-label" for="remember-me">로그인 유지</label>
+                    </div>
+                  </div>
+                  <div class="col-xxl-6 col-lg-12 col-md-6">
+                    <div class="text-start text-md-end text-lg-start text-xxl-end mb-30">
+                      <a href="/member/public/forgot-password" class="hover-underline">비밀번호 찾기</a>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="button-group d-flex justify-content-center flex-wrap">
+                      <button class="main-btn primary-btn btn-hover w-100 text-center" type="submit" id="btnLogin">로그인</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="singin-option pt-40 text-center">
+                <p class="text-sm text-medium text-dark text-center">아직 관리자 회원이 아니신가요?
+                  <a href="/member/public/join">회원 가입</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+<script th:inline="javascript">
+  let message = [[${param.msg}]];
+  if (message) {
+    alert((new Function ("return " + message))());
+    history.pushState(null, null, "/member/public/login");
+  }
+</script>
+</html>

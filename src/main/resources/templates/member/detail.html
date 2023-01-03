@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="table-components">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2 class="ft-gm">관리자 상세보기</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-elements-wrapper">
+        <div class="col-lg-12">
+          <div class="card-style mb-30">
+            <h4 class="mb-25">관리자 정보</h4>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">이름</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.name}" disabled/>
+                  <span class="icon"> <i class="lni lni-user"></i> </span>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">권한</label>
+                <div class="select-style-1">
+                  <div class="select-position">
+                    <select id="role">
+                      <option value="Basic" th:selected="${resultMap.info.role eq 'Basic'}">일반</option>
+                      <option value="Administrator" th:selected="${resultMap.info.role eq 'Administrator'}">최고 관리자</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">이메일</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.email}" disabled/>
+                  <span class="icon"> <i class="lni lni-website"></i> </span>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">전화번호</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.phoneNumber}" disabled/>
+                  <span class="icon"> <i class="lni lni-phone"></i> </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">계정 승인 상태</label>
+                <div class="input-style-3">
+                  <input type="text" th:if="${resultMap.info.isAccountNonLocked eq 'Y'}" value="승인" disabled/>
+                  <input type="text" th:unless="${resultMap.info.isAccountNonLocked eq 'Y'}" value="미승인" disabled/>
+                  <span class="icon"> <i class="lni lni-lock"></i> </span>
+                </div>
+              </div>
+              <div class="col-lg-4 mt-4">
+                <a
+                  href="javascript:fnAccountApproval();"
+                  class="main-btn primary-btn btn-hover"
+                  style="margin:3px 0 0 -8px"
+                  th:if="${resultMap.info.isAccountNonLocked eq 'N'}">승인</a>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">계정 비밀번호 변경일 만료 상태</label>
+                <div class="input-style-3">
+                  <input type="text" th:if="${resultMap.info.isCredentialsNonExpired eq 'Y'}" value="사용중" disabled/>
+                  <input type="text" th:unless="${resultMap.info.isCredentialsNonExpired eq 'Y'}" value="만료" disabled/>
+                  <span class="icon"> <i class="lni lni-lock"></i> </span>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">계정 활성 상태</label>
+                <div class="input-style-3">
+                  <input type="text" th:if="${resultMap.info.isEnabled eq 'Y'}" value="활성" disabled/>
+                  <input type="text" th:unless="${resultMap.info.isEnabled eq 'Y'}" value="비활성" disabled/>
+                  <span class="icon"> <i class="lni lni-lock"></i> </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">가입일</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.registerTime}" disabled/>
+                  <span class="icon"> <i class="lni lni-enter"></i> </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <label class="text-dark ft-gm">상태 메시지</label>
+                <div class="input-style-3">
+                  <textarea th:text="${resultMap.info.statusMessage}" rows="4" disabled></textarea>
+                  <span class="icon"> <i class="lni lni-bubble"></i> </span>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <div class="row">
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">접속 아이피</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.ip}" disabled/>
+                  <span class="icon"> <i class="lni lni-laptop-phone"></i> </span>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <label class="text-dark ft-gm">최종 로그인 일시</label>
+                <div class="input-style-3">
+                  <input type="text" th:value="${resultMap.info.lastLoginTime}" disabled/>
+                  <span class="icon"> <i class="lni lni-timer"></i> </span>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="float-start">
+                  <a href="/member/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
+                    <i class="lni lni-list"></i> 목록
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<script th:inline="javascript">
+  $("#role").change(function(){
+    let data = {
+      id: [[${resultMap.info.id}]],
+      role: $(this).val()
+    }
+    script.ajax("/member/update/role", "post", false, "json", data, function(r) {
+      if (r.result > 0) {
+        alert(msg.modify);
+      }
+    });
+  });
+
+  function fnAccountApproval() {
+    let data = {
+      id: [[${resultMap.info.id}]],
+      isAccountNonLocked: "Y"
+    }
+    script.ajax("/member/update/account-lock", "post", false, "json", data, function(r) {
+      if (r.result > 0) {
+        alert(msg.approval);
+        location.reload();
+      }
+    });
+  }
+</script>
+</th:block>
+</html>

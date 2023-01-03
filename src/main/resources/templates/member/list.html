@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="table-components">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2 class="ft-gm">관리자 목록</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tables-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-style mb-30">
+              <p class="text-sm text-dark mb-20">
+                관리자 목록입니다. 상세페이지에서 계정 상태 <span class="fw-bold text-danger">승인/거절</span> 처리가 가능합니다.
+              </p>
+              <h6 class="mb-25">검색</h6>
+              <form id="frm" action="/member/list">
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div class="select-style-1">
+                      <label class="fw-bold">권한</label>
+                      <div class="select-position">
+                        <select id="role" name="role">
+                          <option value="" th:selected="${resultMap.request.role eq ''}">전체</option>
+                          <option value="Administrator" th:selected="${resultMap.request.role eq 'Administrator'}">최고 관리자</option>
+                          <option value="Basic" th:selected="${resultMap.request.role eq 'Basic'}">일반</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="select-style-1">
+                      <label class="fw-bold">계정 승인 상태</label>
+                      <div class="select-position">
+                        <select id="isAccountNonLocked" name="isAccountNonLocked">
+                          <option value="" th:selected="${resultMap.request.isAccountNonLocked eq ''}">전체</option>
+                          <option value="Y" th:selected="${resultMap.request.isAccountNonLocked eq 'Y'}">승인</option>
+                          <option value="N" th:selected="${resultMap.request.isAccountNonLocked eq 'N'}">미승인</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="select-style-1">
+                      <label class="fw-bold">계정 활성 상태</label>
+                      <div class="select-position">
+                        <select id="isEnabled" name="isEnabled">
+                          <option value="" th:selected="${resultMap.request.isEnabled eq ''}">전체</option>
+                          <option value="Y" th:selected="${resultMap.request.isEnabled eq 'Y'}">활성</option>
+                          <option value="N" th:selected="${resultMap.request.isEnabled eq 'N'}">비활성</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div class="input-style-1">
+                      <label class="fw-bold">검색어</label>
+                      <input type="text" placeholder="이름, 이메일, 전화번호를 입력해주세요." id="search" name="search" th:value="${resultMap.request.search}" maxlength="30">
+                    </div>
+                  </div>
+                  <div class="col-lg-5" style="margin-top:8px">
+                    <div class="mt-4" >
+                      <a href="javascript:frm.submit();" class="main-btn primary-btn rounded-md btn-hover fw-bold">
+                        <i class="lni lni-search-alt"></i> 검색
+                      </a>
+                      <a href="/member/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
+                        <i class="lni lni-reload"></i> 초기화
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="table-wrapper table-responsive mt-3">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th><h5>번호</h5></th>
+                      <th><h5>이름</h5></th>
+                      <th><h5>이메일</h5></th>
+                      <th><h5>전화번호</h5></th>
+                      <th><h5>권한</h5></th>
+                      <th><h5>계정 승인 상태</h5></th>
+                      <th><h5>계정 활성 상태</h5></th>
+                      <th><h5>최종 로그인 일시</h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="list, status : ${resultMap.list}">
+                      <td class="min-width">
+                        <p th:text="${(resultMap.totalCnt - status.index) - (resultMap.pageSize * (resultMap.page / resultMap.pageSize))}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.name}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p>
+                          <a class="text-primary" th:href="@{/member/detail(id=${list.id})}" th:text="${list.email}"></a>
+                        </p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.phoneNumber}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.name}"></p>
+                      </td>
+                      <td class="min-width">
+                        <span class="status-btn active-btn" th:if="${list.isAccountNonLocked eq 'Y'}">승인</span>
+                        <span class="status-btn close-btn" th:unless="${list.isAccountNonLocked eq 'Y'}">미승인</span>
+                      </td>
+                      <td class="min-width">
+                        <span class="status-btn active-btn" th:if="${list.isEnabled eq 'Y'}">활성</span>
+                        <span class="status-btn close-btn" th:unless="${list.isEnabled eq 'Y'}">비활성</span>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.lastLoginTime}"></p>
+                      </td>
+                    </tr>
+                    <th:block th:unless="${resultMap.list.size() > 0}">
+                      <tr>
+                        <td class="min-width text-center" colspan="8">
+                          <p>데이터가 존재하지 않습니다.</p>
+                        </td>
+                      </tr>
+                    </th:block>
+                  </tbody>
+                </table>
+              </div>
+              <div class="row">
+                <div class="col">
+                  <ul class="pagination">
+                    <li class="page-item"
+                        th:classappend="${index == (resultMap.page / resultMap.pageSize) + 1} ? active"
+                        th:each="index : ${#numbers.sequence(1, resultMap.totalPage)}">
+                      <a class="page-link"
+                         th:href="@{/member/list(page=${resultMap.pageSize * (index - 1)}, pageSize=${resultMap.pageSize})}">
+                        <span th:text="${index}"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</th:block>
+</html>

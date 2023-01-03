@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="section">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2>대시보드</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xl-3 col-lg-4 col-sm-6">
+          <div class="icon-card mb-30">
+            <div class="icon purple">
+              <i class="lni lni lni-pencil-alt"></i>
+            </div>
+            <div class="content">
+              <h4 class="mb-10">견적문의</h4>
+              <span class="text-bold text-success">[[${countByGoe30}]]건</span>
+              <span class="text-gray">(last 30 days)</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="card-style calendar-card mb-30">
+            <div id="calendar-mini"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var calendarMiniEl = document.getElementById("calendar-mini");
+      var calendarMini = new FullCalendar.Calendar(calendarMiniEl, {
+        initialView: "dayGridMonth",
+        headerToolbar: {
+          end: "today prev,next",
+        },
+      });
+      calendarMini.render();
+    });
+  </script>
+</th:block>
+</html>

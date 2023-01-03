@@ -1,0 +1,50 @@
+server:
+  port: 19090
+spring:
+  thymeleaf:
+    cache: false
+    prefix: file:src/main/resources/templates/
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: jdbc:mariadb://database-1.cylcxtf0zaqc.ap-northeast-2.rds.amazonaws.com:3306/beta_admin
+    username: ENC(ibAzlLFZ16lQKqWIJ+wLkw==)
+    password: ENC(bpfNM87WnZqADUX5NK1IgtUZ1N0wE6AE)
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gpfm321@gmail.com
+    password: ENC(17RChxtStwWhOTFRMGMfV5gIUg84kvi8D6JY7LISHKc=)
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+logging:
+  level:
+    root: info
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql: trace
+global:
+  url:
+    admin: "http://localhost:19090"
+    user: "http://localhost:3000"
+  mail:
+    templates:
+      path: "/templates/mail/"
+  xClientKey: ${x_client_key}
+  google:
+    recaptcha:
+      url: "https://www.google.com/recaptcha/api/siteverify"
+      secretKey: ENC(3ax4PREh4LiBsz0RYoUmBKn8sUaR5czcW4QdsbAyOEewp5qfR2Ms4CmN2MrzSd1XgsZVSV1LFFQ=)
+
+jasypt:
+  key: ${jasypt_key}

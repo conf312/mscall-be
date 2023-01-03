@@ -1,0 +1,36 @@
+server:
+  port: 19090
+spring:
+  thymeleaf:
+    prefix: classpath:/templates/
+  datasource:
+    driverClassName: org.mariadb.jdbc.Driver
+    url: ENC(xBuSCEOCAqmNfmUspqitl6Y/n6N2Xql4Kc+xrQO9WwhSlxUObgUdQ/lN/dF3u+8XkhdUuZZ1bK199H0dVliFww4X8afKWjiEJYTbdWVFXJVCrRoxPW8lyvA/+h3mwD7v)
+    username: ENC(ibAzlLFZ16lQKqWIJ+wLkw==)
+    password: ENC(wmskE2K9IM2pz0Of/Jv+bD2l0U7YRod0)
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: gpfm321@gmail.com
+    password: ENC(17RChxtStwWhOTFRMGMfV5gIUg84kvi8D6JY7LISHKc=)
+    properties:
+      mail:
+        smtp:
+          starttls:
+            enable: true
+          auth: true
+global:
+  url:
+    admin: ENC(Dc26Va8GSNHIda6zV7fBkVPou+73fA6JbiY2B3xWXEyPN3JTGk11Ju7BhXrUxVFRUS5my3Qy+CSgmt1pA6mtOQ9KXetKAmextVidWToSGto=)
+    user: "https://www.ms-call.kr"
+  mail:
+    templates:
+      path: "/templates/mail/"
+  xClientKey: ${x_client_key}
+  google:
+    recaptcha:
+      url: "https://www.google.com/recaptcha/api/siteverify"
+      secretKey: ENC(3ax4PREh4LiBsz0RYoUmBKn8sUaR5czcW4QdsbAyOEewp5qfR2Ms4CmN2MrzSd1XgsZVSV1LFFQ=)
+
+jasypt:
+  key: ${jasypt_key}

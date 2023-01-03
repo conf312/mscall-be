@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="table-components">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2 class="ft-gm">견적문의 목록</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="tables-wrapper">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="card-style mb-30">
+              <h6 class="mb-25">검색</h6>
+              <form id="frm" action="/inquiry/list">
+                <div class="row">
+                  <label class="fw-bold text-dark">등록일</label>
+                  <div class="col-lg-3">
+                    <div class="input-style-1">
+                      <input type="date" id="startDate" name="startDate" onchange="fnChgDate(this)" th:value="${resultMap.request.startDate}">
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="input-style-1">
+                      <input type="date" id="endDate" name="endDate" onchange="fnChgDate(this)" th:value="${resultMap.request.endDate}">
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div class="select-style-1">
+                      <label class="fw-bold">답변상태</label>
+                      <div class="select-position">
+                        <select name="answerStatus">
+                          <option value="" th:selected="${resultMap.request.answerStatus eq ''}">전체</option>
+                          <option value="Y" th:selected="${resultMap.request.answerStatus eq 'Y'}">완료</option>
+                          <option value="N" th:selected="${resultMap.request.answerStatus eq 'N'}">미답변</option>
+                          <option value="Q" th:selected="${resultMap.request.answerStatus eq 'Q'}">보류</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <label class="fw-bold">검색어</label>
+                  <div class="col-lg-4">
+                    <div class="select-style-1">
+                      <div class="select-position">
+                        <select name="searchType">
+                          <option value="" th:selected="${resultMap.request.searchType eq ''}">전체</option>
+                          <option value="company" th:selected="${resultMap.request.searchType eq 'company'}">회사명</option>
+                          <option value="industry" th:selected="${resultMap.request.searchType eq 'industry'}">업종</option>
+                          <option value="name" th:selected="${resultMap.request.searchType eq 'name'}">이름</option>
+                          <option value="email" th:selected="${resultMap.request.searchType eq 'email'}">이메일</option>
+                          <option value="contents" th:selected="${resultMap.request.searchType eq 'contents'}">문의사항</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="mt-4">
+                      <a href="javascript:frm.submit();" class="main-btn primary-btn rounded-md btn-hover fw-bold">
+                        <i class="lni lni-search-alt"></i> 검색
+                      </a>
+                      <a href="/inquiry/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
+                        <i class="lni lni-reload"></i> 초기화
+                      </a>
+                    </div>
+                  </div>
+                  <div class="col-lg-6">
+                    <div class="input-style-1">
+                      <input type="text" placeholder="검색내용을 입력해주세요." id="search" name="search" th:value="${resultMap.request.search}" maxlength="30">
+                    </div>
+                  </div>
+                </div>
+                <div class="table-wrapper table-responsive mt-4">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th><h5>번호</h5></th>
+                      <th><h5>회사명</h5></th>
+                      <th><h5>업종</h5></th>
+                      <th><h5>이름</h5></th>
+                      <th><h5>이메일</h5></th>
+                      <th><h5>답변상태</h5></th>
+                      <th><h5>등록일</h5></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="list, status : ${resultMap.list}">
+                      <td class="min-width">
+                        <p th:text="${(resultMap.totalCnt - status.index) - (resultMap.pageSize * (resultMap.page / resultMap.pageSize))}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.company}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.industry}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.name}"></p>
+                      </td>
+                      <td class="min-width">
+                        <p>
+                          <a class="text-primary fw-bold" th:text="${list.email}" th:href="@{/inquiry/detail(id=${list.id})}" ></a>
+                        </p>
+                      </td>
+                      <td class="min-width">
+                        <span class="status-btn active-btn" th:if="${list.answerStatus eq 'Y'}">완료</span>
+                        <span class="status-btn close-btn" th:if="${list.answerStatus eq 'N'}">미답변</span>
+                        <span class="status-btn info-btn" th:if="${list.answerStatus eq 'Q'}">보류</span>
+                      </td>
+                      <td class="min-width">
+                        <p th:text="${list.registerTime}"></p>
+                      </td>
+                    </tr>
+                    <th:block th:unless="${resultMap.list.size() > 0}">
+                      <tr>
+                        <td class="min-width text-center" colspan="7">
+                          <p>데이터가 존재하지 않습니다.</p>
+                        </td>
+                      </tr>
+                    </th:block>
+                  </tbody>
+                </table>
+              </div>
+              </form>
+              <div class="row">
+                <div class="col">
+                  <ul class="pagination">
+                    <li class="page-item"
+                        th:classappend="${index == (resultMap.page / resultMap.pageSize) + 1} ? active"
+                        th:each="index : ${#numbers.sequence(1, resultMap.totalPage)}">
+                      <a class="page-link"
+                         th:href="@{/inquiry/list(page=${resultMap.pageSize * (index - 1)}, pageSize=${resultMap.pageSize})}">
+                        <span th:text="${index}"></span>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script>
+    let fnChgDate = function(obj) {
+      let startDateVal = $("#startDate").val();
+      let endDateVal = $("#endDate").val();
+      if ($(obj)[0].name == "startDate") {
+        if (endDateVal == "" || endDateVal == undefined) $("#endDate").val(startDateVal);
+      } else if ($(obj)[0].name == "endDate") {
+        if (startDateVal == "" || startDateVal == undefined) {
+          $("#startDate").val(endDateVal);
+        } else if (startDateVal > endDateVal) {
+          $("#startDate").val(endDateVal);
+        }
+      }
+    }
+  </script>
+</th:block>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<th:block th:replace="fragments/header :: headerFragment"></th:block>
+<body>
+  <div class="div_load_image" style="position: fixed; top: 0px; left: 0px; width: 100%; height: 100%; z-index: 100; opacity: 0.5; background-color: rgb(0, 0, 0); ">
+    <img src="/images/loading.gif" style="width:100px; height:100px;position:absolute; top:50%; left:50%;">
+  </div>
+  <input type="hidden" id="globalFileSize" name="globalFileSize" th:value="${@environment.getProperty('global.file.max-size')}" />
+  <input type="hidden" id="globalFileExt" name="globalFileExt" th:value="${@environment.getProperty('global.file.ext')}" />
+  <aside class="sidebar-nav-wrapper">
+    <div class="navbar-logo">
+      <a href="/dashboard">
+        <img src="/images/logo/ms-logo.png" alt="logo" width="100"/>
+      </a>
+    </div>
+    <nav class="sidebar-nav">
+      <ul>
+        <li class="nav-item /dashboard">
+          <a href="/dashboard">
+            <span class="icon">
+              <i class="lni lni-dashboard"></i>
+            </span>
+            <span class="text">대시보드</span>
+          </a>
+        </li>
+        <li class="nav-item /member/list /member/detail">
+          <a href="/member/list">
+            <span class="icon">
+              <i class="lni lni-mailchimp"></i>
+            </span>
+            <span class="text">관리자</span>
+          </a>
+        </li>
+        <li class="nav-item /inquiry/list /inquiry/detail">
+          <a href="/inquiry/list">
+            <span class="icon">
+              <i class="lni lni-pencil-alt"></i>
+            </span>
+            <span class="text">견적문의</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="https://analytics.google.com/analytics/web/?authuser=0#/p347458774/realtime/overview?params=_u..nav%3Dmaui" target="_blank">
+            <span class="icon">
+              <i class="lni lni-google"></i>
+            </span>
+            <span class="text">구글 애널리틱스</span>
+          </a>
+        </li>
+        <span class="divider"><hr/></span>
+      </ul>
+    </nav>
+    <div class="promo-box">
+      <h3>사용자 사이트</h3>
+      <p>아래 버튼을 누르면 바로 사용자 페이지로 이동합니다.</p>
+      <a
+        href="http://www.ms-call.kr"
+        target="_blank"
+        rel="nofollow"
+        class="main-btn primary-btn btn-hover">
+        이동하기
+      </a>
+    </div>
+  </aside>
+  <div class="overlay"></div>
+  <main class="main-wrapper">
+    <header class="header">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-5 col-md-5 col-6">
+              <div class="header-left d-flex align-items-center">
+                  <div class="menu-toggle-btn mr-20">
+                      <button
+                        id="menu-toggle"
+                        class="main-btn primary-btn btn-hover">
+                        <i class="lni lni-chevron-left me-2"></i> Menu
+                      </button>
+                  </div>
+              </div>
+          </div>
+          <div class="col-lg-7 col-md-7 col-6">
+            <div class="header-right">
+              <div class="profile-box ml-15">
+                <button
+                  class="dropdown-toggle bg-transparent border-0"
+                  type="button"
+                  id="profile"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+                  <div class="profile-info">
+                    <div class="info">
+                      <h6 th:text="${session.member.name}"></h6>
+                      <div class="image">
+                        <img src="/images/profile/person.png" alt="profile" style="height:40px;"/>
+                        <span class="status"></span>
+                      </div>
+                    </div>
+                  </div>
+                  <i class="lni lni-chevron-down"></i>
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profile">
+                  <li>
+                    <a href="/member/profile">
+                      <i class="lni lni-user"></i> 프로필
+                    </a>
+                  </li>
+                  <li>
+                    <a href="/member/logout"> <i class="lni lni-exit"></i> 로그아웃 </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+    <th:block layout:fragment="content"></th:block>
+  </main>
+  <th:block th:replace="fragments/footer :: footerFragment"></th:block>
+</body>
+</html>

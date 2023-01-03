@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>회원가입 | Admin</title>
+  <link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+  <link rel="stylesheet" href="/css/bootstrap.min.css"/>
+  <link rel="stylesheet" href="/css/main.css"/>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.bundle.min.js"></script>
+  <script src="/js/script.js"></script>
+  <script src="/js/message.js"></script>
+  <script src="/js/regularExpression.js"></script>
+</head>
+<body>
+<main class="container-fluid">
+  <section class="signin-section">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+      </div>
+      <div class="row g-0 auth-row">
+        <div class="col-lg-6">
+          <div class="auth-cover-wrapper bg-primary-100">
+            <div class="auth-cover">
+              <div class="title text-center">
+                <h1 class="text-primary mb-10">환영합니다.</h1>
+                <p class="text-medium">계속하려면 회원가입을 진행해주세요.</p>
+              </div>
+              <div class="cover-image">
+                <img src="/images/auth/signin-image2.svg" alt="signin" />
+              </div>
+              <div class="shape-image">
+                <img src="/images/auth/shape.svg" alt="shape" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="signin-wrapper">
+            <div class="form-wrapper">
+              <h4 class="mb-15 ft-gm">회원가입</h4>
+              <form id="frmJoin" action="/member/public/join/action" method="post">
+                <div class="row">
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">이름</label>
+                      <input type="text" placeholder="이름을 입력해 주세요." id="name" name="name" maxlength="25" required/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">이메일(아이디)</label>
+                      <input type="email" placeholder="이메일을 입력해 주세요." id="email" name="email" maxlength="100" required/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">비밀번호</label>
+                      <input type="password" placeholder="비밀번호를 입력해 주세요." id="password" name="password" maxlength="50" required/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">비밀번호 확인</label>
+                      <input type="password" placeholder="비밀번호를 입력해 주세요." id="passwordConfirm" name="passwordConfirm" maxlength="50" required/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="input-style-1">
+                      <label class="ft-gm">휴대전화 번호</label>
+                      <input type="text" placeholder="-없이 숫자로만 입력해 주세요." id="phoneNumber" name="phoneNumber" maxlength="12" required
+                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1');"/>
+                    </div>
+                  </div>
+                  <div class="col-12">
+                    <div class="button-group d-flex justify-content-center flex-wrap">
+                      <button class="main-btn primary-btn btn-hover w-100 text-center" type="submit">가입하기</button>
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <div class="singin-option pt-40 text-center">
+                <p class="text-sm text-medium text-dark text-center">이미 회원이신가요?
+                  <a href="/member/public/login">로그인</a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+<script th:inline="javascript">
+  $("#frmJoin").submit(function() {
+    let flag = false;
+    const password = $("#password");
+    const passwordConfirm = $("#passwordConfirm");
+    const regPassword = reg.password;
+
+    if (!regPassword.test(password.val())) {
+        alert(msg.reg.password);
+        password.focus();
+        return false;
+    }
+
+    script.ajax("/member/public/count-by/email", "post", false, "json", { email: $("#email").val() }, function(r) {
+      if (r.count > 0) {
+        alert(msg.member.email.already);
+        return false;
+      }
+      if (password.val() != passwordConfirm.val()) {
+        alert(msg.member.password.confirm);
+        password.focus();
+        return false;
+      }
+      flag = true;
+    });
+
+    return flag;
+  });
+</script>
+</html>

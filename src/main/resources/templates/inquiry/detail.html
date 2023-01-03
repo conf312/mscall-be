@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="table-components">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2 class="ft-gm">고객문의 상세</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-elements-wrapper">
+        <div class="col-lg-12">
+          <div class="card-style mb-30">
+            <h4 class="mb-25 ft-gm">문의 내용</h4>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">회사명</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.company}"></p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">업종</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.industry}"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">이름</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.name}"></p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">연락처</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.tel}"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">이메일</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.email}"></p>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">업무종류</label>
+                <div class="input-style-3 mt-1">
+                  <p th:if="${#strings.contains(info.workType,'C')}">전화</p>
+                  <p th:if="${#strings.contains(info.workType,'B')}">게시판</p>
+                  <p th:if="${#strings.contains(info.workType,'M')}">메신저</p>
+                  <p th:if="${#strings.contains(info.workType,'O')}">발주</p>
+                  <p th:if="${#strings.contains(info.workType,'E')}">기타</p>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">업무량(1일 평균건수)</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.workLoad}"></p>
+                </div>
+              </div>
+            </div>
+            <label class="text-dark ft-gm">내용</label>
+            <div class="input-style-3 mt-1" >
+              <p th:text="${info.contents}"></p>
+            </div>
+            <div class="row">
+              <div class="col-lg-4">
+                <label class="text-dark ft-gm">등록일시</label>
+                <div class="input-style-3 mt-1">
+                  <p th:text="${info.registerTime}"></p>
+                </div>
+              </div>
+            </div>
+            <hr/>
+            <form id="frmWrite" action="/inquiry/update-answer" method="post">
+              <input type="hidden" th:name="id" th:value="${info.id}" th:if="${info != null}"/>
+              <div class="row mt-5">
+                <h4 class="mb-25 ft-gm text-primary">*답변 등록 정보</h4>
+                <div class="col-lg-3">
+                  <label class="text-dark ft-gm">상태</label>
+                  <div class="select-style-1 mt-1">
+                    <div class="select-position">
+                      <select name="answerStatus">
+                        <option value="Y" th:selected="${info.answerStatus eq 'Y'}">완료</option>
+                        <option value="N" th:selected="${info.answerStatus eq 'N'}">미답변</option>
+                        <option value="Q" th:selected="${info.answerStatus eq 'Q'}">보류</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <label class="text-dark ft-gm">메모</label>
+                  <div class="input-style-3 mt-1">
+                    <textarea rows="7" name="note" maxlength="2500" th:text="${info.note}" required></textarea>
+                    <span class="icon"><i class="lni lni-text-format"></i></span>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label class="text-dark ft-gm">등록일시</label>
+                  <div class="input-style-3 mt-1">
+                    <p th:text="${info.answerTime}"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="float-end">
+                    <Button type="submit" class="main-btn secondary-btn rounded-md btn-hover fw-bold">
+                      <i class="lni lni-pencil-alt"></i>
+                      <span>등록</span>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+          </form>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="float-start">
+                <a href="/inquiry/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
+                  <i class="lni lni-list"></i> 목록
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <script th:inline="javascript">
+    const frm = $("#frmWrite");
+    frm.submit(function() {
+      if (confirm(msg.confirm.register)) return true;
+      return false;
+    });
+  </script>
+</th:block>
+</html>
