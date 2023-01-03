@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/default_layout}">
+<th:block layout:fragment="content">
+  <section class="table-components">
+    <div class="container-fluid">
+      <div class="title-wrapper pt-30">
+        <div class="row align-items-center">
+          <div class="col-md-6">
+            <div class="title mb-30">
+              <h2 class="ft-gm">약관 상세</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="form-elements-wrapper">
+        <form id="frmDetail" method="post" action="/terms/save">
+          <input type="hidden" name="id" th:value="${info.id}" th:if="${info != null}">
+          <div class="col-lg-12">
+          <div class="card-style mb-30">
+            <h4 class="mb-25 ft-gm">약관 내용</h4>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="input-style-1">
+                  <label class="fw-bold">제목</label>
+                  <input type="text" name="title" placeholder="제목" th:if="${info == null}" maxlength="50" required>
+                  <input type="text" name="title" placeholder="제목" th:unless="${info == null}" th:value="${info.title}" maxlength="50" required>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="input-style-1">
+                  <label class="fw-bold">내용</label>
+                  <textarea class="editor" name="contents" th:if="${info == null}"></textarea>
+                  <textarea class="editor" name="contents" th:unless="${info == null}" th:text="${info.contents}"></textarea>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2">
+                <div class="input-style-1">
+                  <label class="fw-bold">버전(예. 1.0.0↑)</label>
+                  <input type="text" name="version" placeholder="1.0.0" th:if="${info == null}" minlength="5" maxlength="5" required>
+                  <input type="text" name="version" placeholder="1.0.0" th:unless="${info == null}" th:value="${info.version}" minlength="5" maxlength="5" required>
+                </div>
+              </div>
+              <div class="col-lg-4">
+                <div class="input-style-1">
+                  <label class="fw-bold">사용여부</label>
+                </div>
+                <div class="form-check form-switch toggle-switch">
+                  <input class="form-check-input" type="checkbox" name="useYn" value="Y" th:if="${info == null}" checked>
+                  <input class="form-check-input" type="checkbox" name="useYn" value="Y" th:unless="${info == null}" th:checked="${info.useYn eq 'Y'}">
+                </div>
+              </div>
+            </div>
+            <div class="row" th:if="${info != null}">
+              <hr/>
+              <h4 class="mt-3 mb-25 ft-gm text-primary">등록정보</h4>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label class="text-dark ft-gm">등록자</label>
+                  <div class="input-style-3 mt-1">
+                    <p th:text="${info.registerName}"></p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="text-dark ft-gm">등록일시</label>
+                  <div class="input-style-3 mt-1">
+                    <p th:text="${info.registerTime}"></p>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-4">
+                  <label class="text-dark ft-gm">변경자</label>
+                  <div class="input-style-3 mt-1">
+                    <p th:text="${info.modifyName}"></p>
+                  </div>
+                </div>
+                <div class="col-lg-4">
+                  <label class="text-dark ft-gm">변경일시</label>
+                  <div class="input-style-3 mt-1">
+                    <p th:text="${info.modifyTime}"></p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="float-start">
+                <a href="/terms/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
+                  <i class="lni lni-list"></i> 목록
+                </a>
+              </div>
+              <div class="float-end">
+                <Button type="submit" class="main-btn secondary-btn rounded-md btn-hover fw-bold" th:if="${info == null}">
+                  <i class="lni lni-pencil-alt"></i>
+                  <span>등록</span>
+                </Button>
+                <Button type="button" class="main-btn danger-btn rounded-md btn-hover fw-bold" onclick="fnDelete()" th:unless="${info == null}">
+                  <i class="lni lni-pencil-alt"></i>
+                  <span>삭제</span>
+                </Button>
+                <Button type="submit" class="main-btn secondary-btn rounded-md btn-hover fw-bold" th:unless="${info == null}">
+                  <i class="lni lni-pencil-alt"></i>
+                  <span>변경</span>
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script th:inline="javascript">
+    const frm = $("#frmDetail");
+    const info = [[${info}]];
+    const regVersion = reg.version;
+    let deleteFlag = false;
+    let editor;
+
+    script.ckeditorInit("editor", function(r) {
+      editor = r;
+    });
+
+    function fnDelete() {
+      if (confirm(msg.confirm.delete)) {
+        deleteFlag = true;
+        frm.attr("action", "/terms/deleteById");
+        frm.submit();
+      }
+    }
+
+    frm.submit(function() {
+      const editorLength = editor.getData().replace(/<[^>]*>/gi, '').length;
+      if (!editorLength) {
+        alert(msg.empty.contents);
+        $(".ck-editor__editable_inline").focus();
+        return false;
+      }
+
+      let version = $("input[name='version']");
+
+      if (!regVersion.test(version.val())) {
+        alert(msg.reg.version);
+        version.focus();
+        return false;
+      }
+
+      if (deleteFlag) {
+        return true;
+      }
+
+      if (info) {
+        if (confirm(msg.confirm.modify)) {
+          frm.attr("action", "/terms/update");
+          return true;
+        }
+      } else {
+        if (confirm(msg.confirm.register)) {
+          return true;
+        }
+      }
+      return false;
+    });
+  </script>
+</th:block>
+</html>
