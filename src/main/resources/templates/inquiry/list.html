@@ -72,11 +72,14 @@
                 </div>
                 <div class="row">
                   <div class="col-lg-6">
-                    <a href="javascript:frm.submit();" class="main-btn primary-btn rounded-md btn-hover fw-bold">
+                    <a href="javascript:fnSearch();" class="main-btn primary-btn rounded-md btn-hover fw-bold">
                       <i class="lni lni-search-alt"></i> 검색
                     </a>
                     <a href="/inquiry/list" class="main-btn success-btn rounded-md btn-hover fw-bold">
                       <i class="lni lni-reload"></i> 초기화
+                    </a>
+                    <a href="javascript:fnExcelDownload()" class="main-btn info-btn rounded-md btn-hover fw-bold">
+                      <i class="lni lni-download"></i> 엑셀 다운로드
                     </a>
                   </div>
                 </div>
@@ -152,7 +155,8 @@
       </div>
     </div>
   </section>
-  <script>
+  <script th:inline="javascript">
+    let frm = $("#frm");
     let fnChgDate = function(obj) {
       let startDateVal = $("#startDate").val();
       let endDateVal = $("#endDate").val();
@@ -164,6 +168,27 @@
         } else if (startDateVal > endDateVal) {
           $("#startDate").val(endDateVal);
         }
+      }
+    }
+
+    let fnSearch = function() {
+      frm.attr("action", "/inquiry/list");
+      frm.submit();
+    }
+
+    let fnExcelDownload = function() {
+      let total = [[${resultMap.totalCnt}]];
+      if (total < 1) {
+        alert(msg.empty.excel);
+        return false;
+      }
+      if (confirm(msg.confirm.excel.download)) {
+        if (total > 100) {
+          alert(msg.empty.max);
+          return false;
+        }
+        frm.attr("action", "/inquiry/excel-download");
+        frm.submit();
       }
     }
   </script>

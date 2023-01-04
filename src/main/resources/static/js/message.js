@@ -21,12 +21,16 @@ let msg = {
     register: "등록하시겠습니까?",
     modify: "변경하시겠습니까?",
     delete: "삭제하시겠습니까?",
-    deleteFile: "파일이 바로 삭제됩니다.\n삭제하시겠습니까?"
+    deleteFile: "파일이 바로 삭제됩니다.\n삭제하시겠습니까?",
+    excel: {
+      download: "엑셀을 다운로드하시겠습니까?"
+    }
   },
   empty: {
     statusMessage: "상태 메시지를 입력해 주세요.",
     delete: "삭제할 대상을 선택해 주세요.",
-    contents: "내용을 입력해주세요."
+    contents: "내용을 입력해주세요.",
+    excel: "엑셀 데이터가 존재하지 않습니다."
   },
   alert: {
     password: "비밀번호를 입력해주세요."
@@ -43,6 +47,9 @@ let msg = {
       ext: "지원하지 않는 확장자입니다.",
       register: "파일이 등록되지 않았습니다."
     }
+  },
+  excel: {
+    max: "최대 100건까지 다운로드 가능합니다.\n조건 검색 후 다운로드 해주세요."
   },
   approval: "승인되었습니다.",
   register: "등록되었습니다.",

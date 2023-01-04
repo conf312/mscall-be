@@ -5,15 +5,24 @@ import com.admin.domain.inquiry.InquiryRepository;
 import com.admin.domain.inquiry.QInquiry;
 import com.admin.domain.member.QMember;
 import com.admin.util.AuthorizationUtil;
+import com.admin.util.ExcelDownloadUtil;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -156,4 +165,21 @@ public class InquiryService {
             .fetchOne();
     }
 
+    public void excelDownload(Inquiry.Request request, HttpServletResponse response) throws IOException {
+        List<Inquiry.Response> list = jpaQueryFactory
+            .from(inquiry)
+            .where (
+                betweenRegisterTime(request.getStartDate(), request.getEndDate()),
+                eqAnswerStatus(request.getAnswerStatus()),
+                containsSearch(request.getSearchType(), request.getSearch())
+            )
+            .orderBy(inquiry.registerTime.desc())
+            .fetch()
+            .stream()
+            .map(Inquiry.Response::new)
+            .collect(Collectors.toList());
+
+        String[] header = {"회사명", "업종", "이름", "연락처", "이메일", "업무종류(C:전화, B:게시판, M:메신저, O:발주, E:기타)", "업무량(1일 평균건수)", "내용", "등록일시"};
+        new ExcelDownloadUtil().inquiryData("sheet1", "견적문의_" + LocalDate.now(), header, list, response);
+    }
 }
