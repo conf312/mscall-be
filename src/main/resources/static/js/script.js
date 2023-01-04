@@ -68,55 +68,9 @@ let script = {
             'undo',
             'redo',
             '|',
-            'fontFamily',
-            'fontSize',
             'fontColor',
             '|',
             'bold',
-            'italic',
-            'alignment',
-            '|',
-            'link',
-            'insertTable'
-          ]
-        },
-        language: 'ko',
-        image: {
-          toolbar: [
-            'imageTextAlternative',
-            'imageStyle:inline',
-            'imageStyle:block',
-            'imageStyle:side'
-          ]
-        },
-        table: {
-          contentToolbar: [
-            'tableColumn',
-            'tableRow',
-            'mergeTableCells'
-          ]
-        }
-      })
-      .then(editor => {
-        callback(editor);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-    },
-    ckeditorInit: function(className, callback) {
-      ClassicEditor.create(document.querySelector("." + className), {
-        toolbar: {
-          items: [
-            'undo',
-            'redo',
-            '|',
-            'fontFamily',
-            'fontSize',
-            'fontColor',
-            '|',
-            'bold',
-            'italic',
             'alignment',
             '|',
             'link',
