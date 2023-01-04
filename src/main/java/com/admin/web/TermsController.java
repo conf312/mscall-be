@@ -34,7 +34,7 @@ public class TermsController {
 
     @PostMapping("/save")
     public String save(Model model, Terms.Request request) {
-        if (termsService.save(request) > 0 ) {
+        if (termsService.save(request) > 0) {
             model.addAttribute("msg", "msg.register");
             model.addAttribute("url", "/terms/list");
         }
@@ -43,7 +43,7 @@ public class TermsController {
 
     @PostMapping("/update")
     public String updateTerms(Model model, Terms.Request request) {
-        if (termsService.updateTerms(request) > 0 ) {
+        if (termsService.updateTerms(request) > 0) {
             model.addAttribute("msg", "msg.modify");
             model.addAttribute("url", "/terms/detail?id=" + request.getId());
         }

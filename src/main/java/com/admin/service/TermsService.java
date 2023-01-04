@@ -88,28 +88,29 @@ public class TermsService {
     }
 
     public Terms.Response findById(Long id) {
-        return jpaQueryFactory.select(Projections.constructor(Terms.Response.class,
-            terms.id,
-            terms.title,
-            terms.contents,
-            terms.version,
-            terms.useYn,
-            ExpressionUtils.as(
-                JPAExpressions
-                    .select(member.name)
-                    .from(member)
-                    .where (
-                        member.id.eq(terms.registerId)
-                    ), "registerName"),
-            ExpressionUtils.as(
-                JPAExpressions
-                    .select(member.name)
-                    .from(member)
-                    .where (
-                        member.id.eq(terms.registerId)
-                    ), "modifyName"),
-            terms.registerTime,
-            terms.modifyTime))
+        return jpaQueryFactory
+            .select(Projections.constructor(Terms.Response.class,
+                terms.id,
+                terms.title,
+                terms.contents,
+                terms.version,
+                terms.useYn,
+                ExpressionUtils.as(
+                    JPAExpressions
+                        .select(member.name)
+                        .from(member)
+                        .where (
+                            member.id.eq(terms.registerId)
+                        ), "registerName"),
+                ExpressionUtils.as(
+                    JPAExpressions
+                        .select(member.name)
+                        .from(member)
+                        .where (
+                            member.id.eq(terms.registerId)
+                        ), "modifyName"),
+                terms.registerTime,
+                terms.modifyTime))
             .from(terms)
             .where(terms.id.eq(id))
             .fetchOne();
@@ -134,32 +135,33 @@ public class TermsService {
     }
 
     public List<Terms.ContentsDTO> findTop1() {
-        return jpaQueryFactory.select(Projections.constructor(Terms.ContentsDTO.class,
-                        terms.title,
-                        terms.contents,
-                        terms.version))
-                .from(terms)
-                .where(terms.useYn.eq("Y"))
-                .orderBy(terms.version.desc())
-                .limit(1)
-                .fetch();
+        return jpaQueryFactory
+            .select(Projections.constructor(Terms.ContentsDTO.class,
+                terms.title,
+                terms.contents,
+                terms.version))
+            .from(terms)
+            .where(terms.useYn.eq("Y"))
+            .orderBy(terms.version.desc())
+            .limit(1)
+            .fetch();
     }
 
     public String findByVersion(Terms.Request request) {
-        return jpaQueryFactory.select(Projections.constructor(String.class,
-            terms.contents))
+        return jpaQueryFactory
+            .select(Projections.constructor(String.class,
+                terms.contents))
             .from(terms)
             .where(terms.version.eq(request.getVersion()))
             .fetchOne();
     }
 
     public List<String> findVersionList() {
-        return jpaQueryFactory.select(Projections.constructor(String.class,
-            terms.version))
+        return jpaQueryFactory
+            .select(Projections.constructor(String.class,
+                terms.version))
             .from(terms)
             .orderBy(terms.version.desc())
             .fetch();
     }
-
-
 }
