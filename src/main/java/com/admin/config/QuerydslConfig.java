@@ -8,10 +8,6 @@ import javax.persistence.PersistenceContext;
 
 @Configuration
 public class QuerydslConfig {
-
-    /*
-    EntityManager를 빈으로 주입
-     */
     @PersistenceContext
     private EntityManager entityManager;
 

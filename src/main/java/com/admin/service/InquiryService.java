@@ -179,7 +179,7 @@ public class InquiryService {
             .map(Inquiry.Response::new)
             .collect(Collectors.toList());
 
-        String[] header = {"회사명", "업종", "이름", "연락처", "이메일", "업무종류(C:전화, B:게시판, M:메신저, O:발주, E:기타)", "업무량(1일 평균건수)", "내용", "등록일시"};
+        String[] header = {"회사명", "업종", "이름", "연락처", "이메일", "업무종류(C:전화,B:게시판,M:메신저,O:발주,E:기타)", "업무량", "내용", "등록일시"};
         new ExcelDownloadUtil().inquiryData("sheet1", "견적문의_" + LocalDate.now(), header, list, response);
     }
 }
