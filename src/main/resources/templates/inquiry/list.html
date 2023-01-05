@@ -88,10 +88,10 @@
                   <thead>
                     <tr>
                       <th><h5>번호</h5></th>
-                      <th><h5>회사명</h5></th>
-                      <th><h5>업종</h5></th>
                       <th><h5>이름</h5></th>
                       <th><h5>이메일</h5></th>
+                      <th><h5>회사명</h5></th>
+                      <th><h5>업종</h5></th>
                       <th><h5>답변상태</h5></th>
                       <th><h5>등록일</h5></th>
                     </tr>
@@ -102,18 +102,16 @@
                         <p th:text="${(resultMap.totalCnt - status.index) - (resultMap.pageSize * (resultMap.page / resultMap.pageSize))}"></p>
                       </td>
                       <td class="min-width">
+                        <p th:text="${list.name}"></p>
+                      </td>
+                      <td class="min-width">
+                        <a class="text-primary fw-bold" th:text="${list.email}" th:href="@{/inquiry/detail(id=${list.id})}"></a>
+                      </td>
+                      <td class="min-width">
                         <p th:text="${list.company}"></p>
                       </td>
                       <td class="min-width">
                         <p th:text="${list.industry}"></p>
-                      </td>
-                      <td class="min-width">
-                        <p th:text="${list.name}"></p>
-                      </td>
-                      <td class="min-width">
-                        <p>
-                          <a class="text-primary fw-bold" th:text="${list.email}" th:href="@{/inquiry/detail(id=${list.id})}" ></a>
-                        </p>
                       </td>
                       <td class="min-width">
                         <span class="status-btn active-btn" th:if="${list.answerStatus eq 'Y'}">완료</span>
