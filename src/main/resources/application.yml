@@ -32,7 +32,7 @@ logging:
       hibernate:
         type:
           descriptor:
-            sql: trace
+            sql: info
 global:
   url:
     admin: "http://localhost:19090"
@@ -44,7 +44,7 @@ global:
   google:
     recaptcha:
       url: "https://www.google.com/recaptcha/api/siteverify"
-      secretKey: ENC(3ax4PREh4LiBsz0RYoUmBKn8sUaR5czcW4QdsbAyOEewp5qfR2Ms4CmN2MrzSd1XgsZVSV1LFFQ=)
+      secretKey: ENC(sJB6UGF+OKiCn3OBfYCqH8vyXuPwKFl5JIruZWw5JnzY0Qqu/mY8miSw2MRI/Y7tp2l6p3Og1uE=)
 
 jasypt:
   key: ${jasypt_key}
