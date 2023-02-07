@@ -39,6 +39,7 @@ logging:
           descriptor:
             sql: info
 global:
+  env: "local"
   url:
     admin: "http://localhost:19090"
     user: "http://localhost:3000"

@@ -25,6 +25,7 @@ spring:
     session:
       store-type: redis
 global:
+  env: "dev"
   url:
     admin: "http://localhost:19090"
     user: "http://localhost:3000"

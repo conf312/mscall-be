@@ -19,7 +19,13 @@ spring:
           starttls:
             enable: true
           auth: true
+  redis:
+    host: host.docker.internal
+    port: 6379
+    session:
+      store-type: redis
 global:
+  env: "prod"
   url:
     admin: ENC(Dc26Va8GSNHIda6zV7fBkVPou+73fA6JbiY2B3xWXEyPN3JTGk11Ju7BhXrUxVFRUS5my3Qy+CSgmt1pA6mtOQ9KXetKAmextVidWToSGto=)
     user: "https://www.ms-call.kr"
