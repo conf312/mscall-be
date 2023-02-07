@@ -81,7 +81,6 @@ public class TermsService {
         return resultMap;
     }
 
-    @Transactional
     public Long save(Terms.Request request) {
         request.setRegisterId(AuthorizationUtil.getMember().getId());
         return termsRepository.save(request.toEntity()).getId();
@@ -129,7 +128,6 @@ public class TermsService {
         .execute();
     }
 
-    @Transactional
     public void deleteById(Terms.Request request) {
         termsRepository.deleteById(request.getId());
     }
